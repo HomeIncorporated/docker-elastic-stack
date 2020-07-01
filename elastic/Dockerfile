@@ -5,7 +5,7 @@ ARG NODE_VERSION=10.21.0-alpine
 FROM node:${NODE_VERSION}
 
 ARG STACK_VERSION
-ENV STACK=${STACK_VERSION:-7.8}
+ENV STACK=${STACK_VERSION:-7.8.0}
 
 RUN apk add --no-cache openjdk8-jre tini su-exec
 
