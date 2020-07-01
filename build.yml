@@ -1,5 +1,0 @@
-version: "3.7"
-networks:
-  build:
-    external: false # Create the volume if it doesn't exist
-    name: build_network

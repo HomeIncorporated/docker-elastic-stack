@@ -1,0 +1,18 @@
+version: "3.7"
+networks:
+  build:
+    external: false # Create the volume if it doesn't exist
+    name: build_network
+    driver: bridge
+
+services:
+  elastic-stack:
+    container-name: all-in-one
+    image: elastic/all-in-one
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - STACK_VERSION=7.8
+    networks:
+      - build
