@@ -7,7 +7,7 @@ networks:
 
 services:
   elastic-stack:
-    container-name: all-in-one
+    container_name: all-in-one
     image: elastic/all-in-one
     build:
       context: .
