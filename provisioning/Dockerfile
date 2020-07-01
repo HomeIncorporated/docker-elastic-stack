@@ -1,10 +1,13 @@
-FROM node:10.21.0-alpine
+#
+# Lockdown on 10.21.0-alpine
+#
+ARG NODE_VERSION=10.21.0-alpine
+FROM node:${NODE_VERSION}
 
-LABEL maintainer "https://github.com/blacktop"
+ARG STACK_VERSION
+ENV STACK=${STACK_VERSION:-7.8}
 
 RUN apk add --no-cache openjdk8-jre tini su-exec
-
-ENV STACK 7.8.0
 
 RUN apk add --no-cache libzmq bash nodejs nginx apache2-utils openssl nss
 RUN mkdir -p /usr/local/lib \
@@ -12,17 +15,17 @@ RUN mkdir -p /usr/local/lib \
 RUN apk add --no-cache -t .build-deps wget ca-certificates \
 	&& set -x \
 	&& cd /tmp \
-	&& echo "Download Elastic Stack ======================================================" \
-	&& echo "Download Elasticsearch..." \
+	&& echo "Download Elastic Stack (version=${STACK}) ======================================================" \
+	&& echo "Download Elasticsearch (version=${STACK}) ======================================================" \
 	&& wget --progress=bar:force -O elasticsearch-$STACK.tar.gz https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-$STACK-no-jdk-linux-x86_64.tar.gz \
 	&& tar -xzf elasticsearch-$STACK.tar.gz \
 	&& mv elasticsearch-$STACK /usr/share/elasticsearch \
-	&& echo "Download Logstash..." \
+	&& echo "Download Logstash (version=${STACK}) ======================================================" \
 	&& wget --progress=bar:force -O logstash-$STACK.tar.gz \
 	https://artifacts.elastic.co/downloads/logstash/logstash-oss-$STACK.tar.gz \
 	&& tar -xzf logstash-$STACK.tar.gz \
 	&& mv logstash-$STACK /usr/share/logstash \
-	&& echo "Download Kibana..." \
+	&& echo "Download Kibana (version=${STACK}) ======================================================" \
 	&& wget --progress=bar:force -O kibana-$STACK.tar.gz https://artifacts.elastic.co/downloads/kibana/kibana-oss-$STACK-linux-x86_64.tar.gz \
 	&& tar -xzf kibana-$STACK.tar.gz \
 	&& mv kibana-$STACK-linux-x86_64 /usr/share/kibana \
