@@ -1,0 +1,31 @@
+version: "3.7"
+networks:
+  use:
+    external: false # Create the volume if it doesn't exist
+    name: use_network
+    driver: bridge
+volumes:
+  data:
+
+services:
+  master:
+    container_name: master
+    restart: unless-stopped
+    image: elastic/all-in-one
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - RUNNING_MODE=elasticsearch # can be master, ingest, data, kibana, logstash, elasticsearch, all
+      - SSL=true # can also be false
+    volumes:
+      - data:/usr/share/elasticsearch/data
+      - ./config/supervisord/supervisord.conf:/etc/supervisor/supervisord.conf
+    networks:
+      - use
