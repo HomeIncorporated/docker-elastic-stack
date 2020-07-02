@@ -101,6 +101,11 @@ COPY entrypoints/elastic-entrypoint.sh /
 COPY entrypoints/logstash-entrypoint.sh /
 COPY entrypoints/kibana-entrypoint.sh /
 COPY entrypoints/nginx-entrypoint.sh /
+
+COPY entrypoints/safe-elastic-entrypoint.sh /
+COPY entrypoints/safe-logstash-entrypoint.sh /
+COPY entrypoints/safe-kibana-entrypoint.sh /
+
 RUN chmod +x /*entrypoint.sh
 
 VOLUME ["/usr/share/elasticsearch/data"]
