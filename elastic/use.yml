@@ -25,12 +25,12 @@ services:
       - "9200:9200"
       - "80:80"
       - "443:443"
-    mem_limit: 4g
-    memswap_limit: 4g
+      - "5601:5601"
+      - "5044:5044"
     environment:
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
       - ES_HEAP_SIZE=2g
-      - RUNNING_MODE=elasticsearch # can be master, ingest, data, kibana, logstash, elasticsearch, all
+      - RUNNING_MODE=all # can be master, ingest, data, kibana, logstash, elasticsearch, all
       - SSL=true # can also be false
     volumes:
       - data:/usr/share/elasticsearch/data
