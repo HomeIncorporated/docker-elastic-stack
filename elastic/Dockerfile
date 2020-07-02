@@ -81,6 +81,7 @@ COPY config/elastic/logrotate /etc/logrotate.d/elasticsearch
 COPY config/logstash/conf.d/ /etc/logstash/conf.d/
 COPY config/logstash/patterns/ /opt/logstash/patterns/
 COPY config/logstash/logstash.yml /etc/logstash/
+COPY config/logstash/log4j2.properties /etc/logstash
 
 # necessary for 5.0+ (overriden via "--path.settings", ignored by < 5.0)
 ENV LS_SETTINGS_DIR /etc/logstash
@@ -107,6 +108,12 @@ COPY entrypoints/safe-logstash-entrypoint.sh /
 COPY entrypoints/safe-kibana-entrypoint.sh /
 
 RUN chmod +x /*entrypoint.sh
+
+RUN set -ex; \
+  if [ -f "$LS_SETTINGS_DIR/log4j2.properties" ]; then \
+  cp "$LS_SETTINGS_DIR/log4j2.properties" "$LS_SETTINGS_DIR/log4j2.properties.dist"; \
+  truncate -s 0 "$LS_SETTINGS_DIR/log4j2.properties"; \
+  fi
 
 VOLUME ["/usr/share/elasticsearch/data"]
 VOLUME ["/etc/logstash/conf.d"]
