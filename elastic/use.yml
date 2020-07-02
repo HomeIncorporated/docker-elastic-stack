@@ -21,7 +21,15 @@ services:
         hard: 65536
     cap_add:
       - IPC_LOCK
+    ports:
+      - "9200:9200"
+      - "80:80"
+      - "443:443"
+    mem_limit: 4g
+    memswap_limit: 4g
     environment:
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+      - ES_HEAP_SIZE=2g
       - RUNNING_MODE=elasticsearch # can be master, ingest, data, kibana, logstash, elasticsearch, all
       - SSL=true # can also be false
     volumes:
